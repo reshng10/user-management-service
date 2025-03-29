@@ -1,0 +1,25 @@
+spring:
+  datasource:
+    url: jdbc:mysql://host.docker.internal:3307/user_management_db?allowPublicKeyRetrieval=true&sslMode=DISABLED&serverTimezone=UTC
+    username: root
+    password: root
+    driver-class-name: com.mysql.cj.jdbc.Driver
+
+  jpa:
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.MySQL8Dialect
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+  application:
+    name: user-management-service
+  kafka:
+    producer:
+      bootstrap-servers: host.docker.internal:9092 # kafka name in docker service
+
+
+eureka:
+  client:
+    service-url:
+      defaultZone: http://host.docker.internal:8761/eureka

@@ -1,0 +1,12 @@
+name: user-management-service pipeline
+
+on:
+  push:
+    branches: [main]
+
+jobs:
+  build-and-test:
+    runs-on: ubuntu-latest
+    name: build and test user-management-service microservice
+    steps:
+      - name: Checkout code
