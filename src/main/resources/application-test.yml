@@ -13,6 +13,10 @@ spring:
       hibernate:
         dialect: org.hibernate.dialect.H2Dialect
     show-sql: true
+  kafka:
+    bootstrap-servers: dummy-server:9092 # # adding dummy values to bypass actual Kafka connections during tests.
+    producer:
+      bootstrap-servers: dummy-server:9092 # adding dummy values to bypass actual Kafka connections during tests.
 
 eureka:
   client:
