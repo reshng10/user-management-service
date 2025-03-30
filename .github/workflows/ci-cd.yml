@@ -7,6 +7,7 @@ on:
 jobs:
   build-test:
     runs-on: ubuntu-latest
+    timeout-minutes: 15
     name: build and test user-management-service microservice
     environment: production
 
@@ -25,17 +26,19 @@ jobs:
 
       # Build and run tests
       - name: Build and run tests
-        run: ./mvnw clean package
+        run: ./mvnw clean verify
         env:
           SPRING_PROFILES_ACTIVE: test
 
   deploy:
-    needs: [build-test]
+    needs: build-test
+    runs-on: ubuntu-latest
     name: deploy to Render PaaS
+    timeout-minutes: 10
 
     steps:
       - name: deploying to Render
         uses: render-actions/deploy@v1
         with:
-          service-id: ${}
-          api-key: rnd_x6rVjHu1haT5vo4CrT1OPfgIHmkb
+          service-id: ${{secrets.RENDER_SERVICE_ID}}
+          api-key: ${{secrets.RENDER_API_KEY}}
