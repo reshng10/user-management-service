@@ -5,8 +5,37 @@ on:
     branches: [main]
 
 jobs:
-  build-and-test:
+  build-test:
     runs-on: ubuntu-latest
     name: build and test user-management-service microservice
+    environment: production
+
     steps:
+      # Get code
       - name: Checkout code
+        uses: actions/checkout@v4
+
+      # Setup Java JDK
+      - name: Setup Java
+        uses: actions/setup-java@v3 # Install JDk
+        with:
+          java-version: 17
+          distribution: temurin
+          cache: maven
+
+      # Build and run tests
+      - name: Build and run tests
+        run: ./mvnw clean package
+        env:
+          SPRING_PROFILES_ACTIVE: test
+
+  deploy:
+    needs: [build-test]
+    name: deploy to Render PaaS
+
+    steps:
+      - name: deploying to Render
+        uses: render-actions/deploy@v1
+        with:
+          service-id: ${}
+          api-key: rnd_x6rVjHu1haT5vo4CrT1OPfgIHmkb
